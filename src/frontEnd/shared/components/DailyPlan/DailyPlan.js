@@ -26,9 +26,10 @@ export default function DailyPlan() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/users');
-        const responseData = await response.json();
+        console.log(`before setCurrentUser ${currentUser}`)
+        const responseData = await sendRequest('http://localhost:5000/api/users');
         await setCurrentUser(responseData.users.find(user => user.fuid === auth.fuid));
+        console.log(`after setCurrentUser ${currentUser}`)
       } catch (err) {}
     };
     

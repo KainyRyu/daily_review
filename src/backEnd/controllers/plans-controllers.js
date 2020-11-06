@@ -35,14 +35,14 @@ const getPlansByUid = async (req, res, next) => {
 }
 
 const addPlan = async (req, res, next) => {
-    const { title, starts, ends, id } = req.body;
+    const { title, starts, ends, uid } = req.body;
     const createdPlan = new Plan ({
-        title, starts, ends, id
+        title, starts, ends, uid
     });
 
     let user;
     try {
-        user = await User.findById(id);
+        user = await User.findById(uid);
         console.log(`plans-controllers.js user: ${user}`);
 
     } catch (err) {

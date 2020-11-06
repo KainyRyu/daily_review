@@ -105,6 +105,8 @@ function App() {
     result();
   }, [firebaseUser]);
 
+
+
   return !!firebaseUser ? (
     <AuthContext.Provider value={{ isSignedIn: isSignedIn, fuid: firebaseUser.uid, signIn: signIn, signOut: signOut }}>
       {/* //everytime context render it will rerender */}

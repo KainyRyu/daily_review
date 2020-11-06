@@ -34,7 +34,7 @@ export default function EditPlan({ currentUser }) {
         e.preventDefault();
         // postingTitle(replace());
         try {
-            console.log(currentUser.id);
+            // console.log(currentUser.id);
             sendRequest(
                 'http://localhost:5000/api/dailyplan/addplan', 
                 'POST', 
