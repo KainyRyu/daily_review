@@ -4,8 +4,8 @@ import './editplan.css';
 import { AuthContext } from '../../context/auth-context';
 
 
-export default function EditPlan({ currentUser }) {
-
+export default function EditPlan() {
+    const currentUser = useContext(AuthContext);
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
     // const [timeslots, setTimeslots] = useState([]);
     // const [currentUser, setCurrentUser] = useState(null);
@@ -28,7 +28,7 @@ export default function EditPlan({ currentUser }) {
     //         return timeslot;
     //     });
     // }
-    console.log(currentUser);
+    console.log(currentUser.userId);
 
     function submitHandler(e) {
         e.preventDefault();
@@ -42,7 +42,7 @@ export default function EditPlan({ currentUser }) {
                     title: newEvent.title, 
                     starts: newEvent.starts, 
                     ends: newEvent.ends,
-                    id: currentUser.id
+                    id: currentUser.userId
                 }),
                 {
                     'Content-Type': 'application/json'

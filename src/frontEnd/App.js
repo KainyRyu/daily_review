@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback } from 'react';
+import React, {useState, useEffect, useCallback, useContext } from 'react';
 import firebase from 'firebase/app';
 import firebaseInitializing from './shared/utils/firebase'
 import Landing from './shared/components/Landing/Landing';
@@ -52,18 +52,26 @@ import { useHttpClient } from './shared/hooks/http-hook';
 //   }
 // }
 
-function App() {	
+function App() {
+  const auth = useContext(AuthContext);
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [firebaseUser, setFirebaseUser] = useState(false);
+  const [userId, setUserId] = useState(false);
   // const [currentUser, setCurrentUser] = useState(null);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
-  const signIn = useCallback(() => {
+  const signIn = useCallback((uid) => {
     setIsSignedIn(true);
+    setUserId(uid);
   },[])
+
+  if (userId) {
+    console.log(userId);
+  }
 
   const signOut = useCallback(() => {
     setIsSignedIn(false);
+    setUserId(null);
     firebase.auth().signOut();
   })
 
@@ -85,9 +93,8 @@ function App() {
   useEffect(() => {
     async function result() {
       if (firebaseUser) {
-        signIn();
         try {
-          await sendRequest(
+          const responseData = await sendRequest(
             'http://localhost:5000/api/users/signup', 
             'POST',
             JSON.stringify({
@@ -99,6 +106,8 @@ function App() {
               'Content-Type': 'application/json'
             }
           );
+          console.log(responseData.user.id)
+          auth.signIn(responseData.user.id);
         } catch (err) {}
       }
     }
@@ -108,7 +117,13 @@ function App() {
 
 
   return !!firebaseUser ? (
-    <AuthContext.Provider value={{ isSignedIn: isSignedIn, fuid: firebaseUser.uid, signIn: signIn, signOut: signOut }}>
+    <AuthContext.Provider 
+      value={{ 
+        isSignedIn: isSignedIn, 
+        userId: userId, 
+        signIn: signIn, 
+        signOut: signOut 
+      }}>
       {/* //everytime context render it will rerender */}
       <Landing firebaseUser={firebaseUser}/>
       <button onClick={signOut}>SignOut</button>

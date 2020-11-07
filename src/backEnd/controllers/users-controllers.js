@@ -14,7 +14,7 @@ const signup = async (req, res, next) => {
 
     if (existingUser) {
         res.json({
-            message: "Signed in!",
+            message: 'Signed in!',
             user: existingUser.toObject({ getters: true })
         });
     }
@@ -30,7 +30,7 @@ const signup = async (req, res, next) => {
         return next(error);
     }
 
-    res.status(201).json({ users: createdUser.toObject({ getters: true })});
+    res.status(201).json({ user: createdUser.toObject({ getters: true })});
 }
 
 const getAllUsers = async (req, res, next) => {
