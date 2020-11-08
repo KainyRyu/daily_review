@@ -5,10 +5,9 @@ import { AuthContext } from '../../context/auth-context';
 
 
 export default function EditPlan() {
-    const currentUser = useContext(AuthContext);
+    const auth = useContext(AuthContext);
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
     // const [timeslots, setTimeslots] = useState([]);
-    // const [currentUser, setCurrentUser] = useState(null);
     const [newEvent, setNewEvent] = useState({
         title: '',
         starts: 0,
@@ -28,21 +27,20 @@ export default function EditPlan() {
     //         return timeslot;
     //     });
     // }
-    console.log(currentUser.userId);
 
-    function submitHandler(e) {
+    async function submitHandler(e) {
         e.preventDefault();
         // postingTitle(replace());
         try {
-            // console.log(currentUser.id);
-            sendRequest(
+            // console.log(auth.id);
+            await sendRequest(
                 'http://localhost:5000/api/dailyplan/addplan', 
                 'POST', 
                 JSON.stringify({
                     title: newEvent.title, 
                     starts: newEvent.starts, 
                     ends: newEvent.ends,
-                    id: currentUser.userId
+                    id: auth.userId
                 }),
                 {
                     'Content-Type': 'application/json'

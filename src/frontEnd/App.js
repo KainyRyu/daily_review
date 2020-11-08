@@ -63,11 +63,11 @@ function App() {
   const signIn = useCallback((uid) => {
     setIsSignedIn(true);
     setUserId(uid);
+    console.log(userId);
+    if (userId) {
+    }
   },[])
 
-  if (userId) {
-    console.log(userId);
-  }
 
   const signOut = useCallback(() => {
     setIsSignedIn(false);
@@ -91,9 +91,10 @@ function App() {
 
 
   useEffect(() => {
-    async function result() {
+    async function signingIn() {
       if (firebaseUser) {
         try {
+          console.log(userId);
           const responseData = await sendRequest(
             'http://localhost:5000/api/users/signup', 
             'POST',
@@ -106,14 +107,14 @@ function App() {
               'Content-Type': 'application/json'
             }
           );
-          console.log(responseData.user.id)
+          console.log(responseData);
           auth.signIn(responseData.user.id);
         } catch (err) {}
       }
     }
-    result();
+    signingIn();
   }, [firebaseUser]);
-
+  
 
 
   return !!firebaseUser ? (
