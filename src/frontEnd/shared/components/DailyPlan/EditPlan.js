@@ -111,6 +111,13 @@ export default function EditPlan() {
                         }
                     </select>
                 </div>
+                <div className="input-wrapper">
+                    <label class="switch">
+                        <input type="checkbox" />
+                        <span class="slider round">check</span>
+                    </label>
+                </div>
+
                 {/* <div className="input-wrapper">
                     Repeat
                 </div> */}
